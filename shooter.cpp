@@ -435,7 +435,7 @@ void drawShip(Frame *frame, Coord center, RGB color)
 		plotLine(frame, x0, y0, x1, y1, color);
 	}
 	
-	// Test pattern's coordinate
+	// Dummy pattern's coordinate
 	vector<Coord> patternCoordinates;
 	
 	patternCoordinates.push_back(coord(70, 10));
@@ -444,7 +444,7 @@ void drawShip(Frame *frame, Coord center, RGB color)
 	patternCoordinates.push_back(coord(70, 30));
 	
 	
-	// Coloring ship's using scanline algorithm
+	// Coloring ship using scanline algorithm
 	for(int i = 1; i <= height; i++){
 		vector<Coord> shipIntersectionPoint = intersectionGenerator(i, shipCoordinates);
 		vector<Coord> patternIntersectionPoint = intersectionGenerator(i, patternCoordinates);
