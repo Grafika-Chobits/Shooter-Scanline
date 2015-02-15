@@ -497,7 +497,7 @@ void drawShip(Frame *frame, Coord center, RGB color)
 	
 	// Dummy pattern's coordinate
 	
-	vector<Coord> patternCoordinates = getFishCoordinate(coord(70,20));
+	vector<Coord> patternCoordinates = getFishCoordinate(coord(50,20));
 	
 	// Coloring ship using scanline algorithm
 	for(int i = 1; i <= height; i++){
