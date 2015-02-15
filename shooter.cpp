@@ -351,21 +351,23 @@ vector<Coord> getFishCoordinate(Coord center) {
 
 }
 
+vector<Coord> getBirdCoordinate(Coord center) {
+	vector<Coord> birdCoord;
 
-vector<Coord> getTriangleCoordinate(Coord center) {
-	vector<Coord> fishCoord;
+	birdCoord.push_back(coord(center.x, center.y));
+	birdCoord.push_back(coord(birdCoord.at(0).x+10, birdCoord.at(0).y-5));
+	birdCoord.push_back(coord(birdCoord.at(1).x+10, birdCoord.at(1).y+5));
+	birdCoord.push_back(coord(birdCoord.at(2).x+5, birdCoord.at(2).y+5));
+	birdCoord.push_back(coord(birdCoord.at(3).x+20, birdCoord.at(3).y+5));
+	birdCoord.push_back(coord(birdCoord.at(4).x+5, birdCoord.at(4).y));
+	birdCoord.push_back(coord(birdCoord.at(5).x-10, birdCoord.at(5).y+5));
+	birdCoord.push_back(coord(birdCoord.at(6).x-10, birdCoord.at(6).y));
+	birdCoord.push_back(coord(birdCoord.at(7).x-10, birdCoord.at(7).y-2));
+	birdCoord.push_back(coord(birdCoord.at(8).x-10, birdCoord.at(8).y-2));
+	birdCoord.push_back(coord(birdCoord.at(9).x-10, birdCoord.at(9).y-2));
+	birdCoord.push_back(coord(birdCoord.at(10).x-10, birdCoord.at(10).y-2));
 
-	int xHeight = 72;
-	int yHeight = 12;
-	
-
-	fishCoord.push_back(coord(center.x, center.y));
-	fishCoord.push_back(coord(fishCoord.at(0).x + 7, fishCoord.at(0).y + 5));
-	fishCoord.push_back(coord(fishCoord.at(1).x + 7, fishCoord.at(1).y - 3));
-	fishCoord.push_back(coord(fishCoord.at(2).x + 7, fishCoord.at(2).y + 10));
-	fishCoord.push_back(coord(fishCoord.at(3).x - 21, fishCoord.at(3).y));
-	return fishCoord;
-
+	return birdCoord;
 }
 
 void drawFish(Frame  *frame, Coord center, RGB color) {
@@ -506,12 +508,12 @@ void drawShip(Frame *frame, Coord center, RGB color)
 		
 		vector<Coord> combinedIntersectionPoint = combineIntersection(shipIntersectionPoint, patternIntersectionPoint);
 		
+		if(combinedIntersectionPoint.size() % 2 != 0){
+			unique(combinedIntersectionPoint.begin(), combinedIntersectionPoint.end(), compareSameAxis);
+			combinedIntersectionPoint.erase(combinedIntersectionPoint.end() - 1);
+		}
+		
 		for(int j = 0; j < combinedIntersectionPoint.size() - 1; j++){
-			if(combinedIntersectionPoint.size() % 2 != 0){
-				unique(combinedIntersectionPoint.begin(), combinedIntersectionPoint.end(), compareSameAxis);
-				combinedIntersectionPoint.erase(combinedIntersectionPoint.end() - 1);
-			}
-			
 			if(j % 2 == 0){
 				int x0 = combinedIntersectionPoint.at(j).x + xShipCoordinate;
 				int y0 = combinedIntersectionPoint.at(j).y + yShipCoordinate;
@@ -555,68 +557,81 @@ void drawPeluru(Frame *frame, Coord center, RGB color)
 }
 
 void drawPlane(Frame *frame, Coord position, RGB color) {
-	int X[19];
-	int Y[19];
-	X[0] = position.x;
-	X[1] = X[0] + 15;
-	X[2] = X[1] + 30;
-	X[3] = X[2] + 13;
-	X[4] = X[3] + 13;
-	X[5] = X[4] + 13;
-	X[6] = X[5] + 13;
-	X[7] = X[6] + 50;
-	X[8] = X[7] + 5;
-	X[9] = X[8] + 10;
-	X[10] = X[9] + 3;
-	X[11] = X[10] - 1;
-	X[12] = X[11] + 1;
-	X[13] = X[12] - 67;
-	X[14] = X[13] + 13;
-	X[15] = X[14] - 10;
-	X[16] = X[15] - 17;
-	X[17] = X[16] - 37;
-	X[18] = X[17] - 27;
 
-	Y[0] = position.y;
-	Y[1] = Y[0] - 5;
-	Y[2] = Y[1] - 3;
-	Y[3] = Y[2] - 4;
-	Y[4] = Y[3] - 3;
-	Y[5] = Y[4] + 3;
-	Y[6] = Y[5] + 4;
-	Y[7] = Y[6] - 3;
-	Y[8] = Y[7] - 18;
-	Y[9] = Y[8] - 4;
-	Y[10] = Y[9] + 27;
-	Y[11] = Y[10] + 5;
-	Y[12] = Y[11] + 5;
-	Y[13] = Y[12] + 3;
-	Y[14] = Y[13] + 25;
-	Y[15] = Y[14] - 6;
-	Y[16] = Y[15] - 18;
-	Y[17] = Y[16] - 1;
-	Y[18] = Y[17] - 3;
+	// Ship's relative coordinate to canvas, ship's actuator
+	int xPlaneCoordinate = position.x;
+	int yPlaneCoordinate = position.y;
+	
+	// Ship's border coordinates
+	vector<Coord>  planeCoordinates;
+	planeCoordinates.push_back(coord(0,0));
+	planeCoordinates.push_back(coord(planeCoordinates.at(0).x + 15, planeCoordinates.at(0).y-5));
+	planeCoordinates.push_back(coord(planeCoordinates.at(1).x + 30, planeCoordinates.at(1).y-3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(2).x + 13, planeCoordinates.at(2).y-4));
+	planeCoordinates.push_back(coord(planeCoordinates.at(3).x + 13, planeCoordinates.at(3).y-3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(4).x + 13, planeCoordinates.at(4).y+3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(5).x + 13, planeCoordinates.at(5).y+4));
+	planeCoordinates.push_back(coord(planeCoordinates.at(6).x + 50, planeCoordinates.at(6).y-3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(7).x + 5, planeCoordinates.at(7).y-18));
+	planeCoordinates.push_back(coord(planeCoordinates.at(8).x + 10, planeCoordinates.at(8).y-4));
+	planeCoordinates.push_back(coord(planeCoordinates.at(9).x + 3, planeCoordinates.at(9).y+27));
+	planeCoordinates.push_back(coord(planeCoordinates.at(10).x - 1, planeCoordinates.at(10).y+5));
+	planeCoordinates.push_back(coord(planeCoordinates.at(11).x + 1, planeCoordinates.at(11).y+5));
+	planeCoordinates.push_back(coord(planeCoordinates.at(12).x - 67, planeCoordinates.at(12).y+3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(13).x + 13, planeCoordinates.at(13).y+25));
+	planeCoordinates.push_back(coord(planeCoordinates.at(14).x - 10, planeCoordinates.at(14).y-6));
+	planeCoordinates.push_back(coord(planeCoordinates.at(15).x - 17, planeCoordinates.at(15).y-18));
+	planeCoordinates.push_back(coord(planeCoordinates.at(16).x - 37, planeCoordinates.at(16).y-1));
+	planeCoordinates.push_back(coord(planeCoordinates.at(17).x - 27, planeCoordinates.at(17).y-3));
+	
 
-	plotLine(frame,X[0],Y[0],X[1],Y[1],color);
-	plotLine(frame,X[1],Y[1],X[2],Y[2],color);
-	plotLine(frame,X[2],Y[2],X[3],Y[3],color);
-	plotLine(frame,X[3],Y[3],X[4],Y[4],color);
-	plotLine(frame,X[4],Y[4],X[5],Y[5],color);
-	plotLine(frame,X[5],Y[5], X[6],Y[6],color);
-	plotLine(frame,X[6],Y[6],X[7],Y[7],color);
-	plotLine(frame,X[7],Y[7],X[8],Y[8],color);
-	plotLine(frame,X[8],Y[8],X[9],Y[9],color);
-	plotLine(frame,X[9],Y[9],X[10],Y[10],color);
-	plotLine(frame,X[10],Y[10],X[11],Y[11],color);
-	plotLine(frame,X[11],Y[11],X[12],Y[12],color);
-	plotLine(frame,X[12],Y[12],X[13],Y[13],color);
-	plotLine(frame,X[13],Y[13],X[14],Y[14],color);
-	plotLine(frame,X[14],Y[14],X[15],Y[15],color);
-	plotLine(frame,X[15],Y[15],X[16],Y[16],color);
-	plotLine(frame,X[16],Y[16],X[17],Y[17],color);
-	plotLine(frame,X[17],Y[17],X[18],Y[18],color);
-	plotLine(frame,X[18],Y[18],X[0],Y[0],color);
-	//addBlob(frame, coord(position.x+170,position.y+15), rgb(255,0,0));
+	// Draw ship's border relative to canvas
+	for(int i = 0; i < planeCoordinates.size(); i++){
+		int x0, y0, x1, y1;
+		
+		if(i < planeCoordinates.size() - 1){
+			x0 = planeCoordinates.at(i).x + xPlaneCoordinate;
+			y0 = planeCoordinates.at(i).y + yPlaneCoordinate;
+			x1 = planeCoordinates.at(i + 1).x + xPlaneCoordinate;
+			y1 = planeCoordinates.at(i + 1).y + yPlaneCoordinate;
+		}else{
+			x0 = planeCoordinates.at(planeCoordinates.size() - 1).x + xPlaneCoordinate;
+			y0 = planeCoordinates.at(planeCoordinates.size() - 1).y + yPlaneCoordinate;
+			x1 = planeCoordinates.at(0).x + xPlaneCoordinate;
+			y1 = planeCoordinates.at(0).y + yPlaneCoordinate;
+		}
+		
+		plotLine(frame, x0, y0, x1, y1, color);
+	}
+	
+	// Pattern's coordinate
+	vector<Coord> patternCoordinates = getBirdCoordinate(coord(50,-10));
+
+	// Coloring ship using scanline algorithm
+	int height = 65;
+	for(int i = -33; i <= height-33; i++){
+		vector<Coord> planeIntersectionPoint = intersectionGenerator(i, planeCoordinates);
+		vector<Coord> patternIntersectionPoint = intersectionGenerator(i, patternCoordinates);
+		
+		vector<Coord> combinedIntersectionPoint = combineIntersection(planeIntersectionPoint, patternIntersectionPoint);
+		
+		if(combinedIntersectionPoint.size() % 2 != 0){
+			unique(combinedIntersectionPoint.begin(), combinedIntersectionPoint.end(), compareSameAxis);
+			combinedIntersectionPoint.erase(combinedIntersectionPoint.end() - 1);
+		}
+		
+		for(int j = 0; j < combinedIntersectionPoint.size() - 1; j++){
+			if(j % 2 == 0){
+				int x0 = combinedIntersectionPoint.at(j).x + xPlaneCoordinate;
+				int y0 = combinedIntersectionPoint.at(j).y + yPlaneCoordinate;
+				int x1 = combinedIntersectionPoint.at(j + 1).x + xPlaneCoordinate;
+				int y1 = combinedIntersectionPoint.at(j + 1).y + yPlaneCoordinate;
+				
+				plotLine(frame, x0, y0, x1, y1, color);
+			}
+		}		
+	}
+	
 }
 
 void drawExplosion(Frame *frame, Coord loc, int mult, RGB color){	
