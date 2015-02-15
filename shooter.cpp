@@ -415,6 +415,10 @@ bool compareByAxis(const s_coord &a, const s_coord &b){
 	return a.x <= b.x;
 }
 
+bool compareSameAxis(const s_coord &a, const s_coord &b){
+	return a.x == b.x;
+}
+
 vector<Coord> intersectionGenerator(int y, vector<Coord> polygon){
 	vector<Coord> intersectionPoint;
 	
@@ -503,6 +507,11 @@ void drawShip(Frame *frame, Coord center, RGB color)
 		vector<Coord> combinedIntersectionPoint = combineIntersection(shipIntersectionPoint, patternIntersectionPoint);
 		
 		for(int j = 0; j < combinedIntersectionPoint.size() - 1; j++){
+			if(combinedIntersectionPoint.size() % 2 != 0){
+				unique(combinedIntersectionPoint.begin(), combinedIntersectionPoint.end(), compareSameAxis);
+				combinedIntersectionPoint.erase(combinedIntersectionPoint.end() - 1);
+			}
+			
 			if(j % 2 == 0){
 				int x0 = combinedIntersectionPoint.at(j).x + xShipCoordinate;
 				int y0 = combinedIntersectionPoint.at(j).y + yShipCoordinate;
