@@ -337,10 +337,10 @@ vector<Coord> getFishCoordinate(Coord center) {
 	fishCoord.push_back(coord(fishCoord.at(2).x + 15, fishCoord.at(2).y - 1));
 	fishCoord.push_back(coord(fishCoord.at(3).x + 15, fishCoord.at(3).y + 1));
 	fishCoord.push_back(coord(fishCoord.at(4).x + 12, fishCoord.at(4).y + 3));
-	fishCoord.push_back(coord(fishCoord.at(5).x + 7, fishCoord.at(5).y));
+	fishCoord.push_back(coord(fishCoord.at(5).x + 7, fishCoord.at(5).y + 1));
 	fishCoord.push_back(coord(fishCoord.at(6).x + 6, fishCoord.at(6).y - 6));
 	fishCoord.push_back(coord(fishCoord.at(7).x, fishCoord.at(7).y + 12));
-	fishCoord.push_back(coord(fishCoord.at(8).x - 6, fishCoord.at(8).y - 5)); 
+	fishCoord.push_back(coord(fishCoord.at(8).x - 6, fishCoord.at(8).y - 6)); 
 	fishCoord.push_back(coord(fishCoord.at(9).x - 7, fishCoord.at(9).y + 2));
 	fishCoord.push_back(coord(fishCoord.at(10).x - 12, fishCoord.at(10).y + 3));
 	fishCoord.push_back(coord(fishCoord.at(11).x - 15, fishCoord.at(11).y + 1));
@@ -507,7 +507,7 @@ void drawShip(Frame *frame, Coord center, RGB color)
 		}
 		
 		for(int j = 0; j < combinedIntersectionPoint.size() - 1; j++){
-			if(j % 2 == 0 && combinedIntersectionPoint.at(j).x != combinedIntersectionPoint.at(j + 1).x){
+			if(j % 2 == 0){
 				int x0 = combinedIntersectionPoint.at(j).x + xShipCoordinate;
 				int y0 = combinedIntersectionPoint.at(j).y + yShipCoordinate;
 				int x1 = combinedIntersectionPoint.at(j + 1).x + xShipCoordinate;
@@ -608,17 +608,17 @@ void drawPlane(Frame *frame, Coord position, RGB color) {
 		
 		vector<Coord> combinedIntersectionPoint = combineIntersection(planeIntersectionPoint, patternIntersectionPoint);
 		
-		if(planeIntersectionPoint.size() % 2 != 0){
-			unique(planeIntersectionPoint.begin(), planeIntersectionPoint.end(), compareSameAxis);
-			planeIntersectionPoint.erase(planeIntersectionPoint.end() - 1);
+		if(combinedIntersectionPoint.size() % 2 != 0){
+			unique(combinedIntersectionPoint.begin(), combinedIntersectionPoint.end(), compareSameAxis);
+			combinedIntersectionPoint.erase(combinedIntersectionPoint.end() - 1);
 		}
 		
-		for(int j = 0; j < planeIntersectionPoint.size() - 1; j++){
+		for(int j = 0; j < combinedIntersectionPoint.size() - 1; j++){
 			if(j % 2 == 0){
-				int x0 = planeIntersectionPoint.at(j).x + xPlaneCoordinate;
-				int y0 = planeIntersectionPoint.at(j).y + yPlaneCoordinate;
-				int x1 = planeIntersectionPoint.at(j + 1).x + xPlaneCoordinate;
-				int y1 = planeIntersectionPoint.at(j + 1).y + yPlaneCoordinate;
+				int x0 = combinedIntersectionPoint.at(j).x + xPlaneCoordinate;
+				int y0 = combinedIntersectionPoint.at(j).y + yPlaneCoordinate;
+				int x1 = combinedIntersectionPoint.at(j + 1).x + xPlaneCoordinate;
+				int y1 = combinedIntersectionPoint.at(j + 1).y + yPlaneCoordinate;
 				
 				plotLine(frame, x0, y0, x1, y1, color);
 			}
