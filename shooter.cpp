@@ -323,6 +323,61 @@ void drawStickmanAndCannon(Frame *frame, Coord shipPosition, RGB color, int coun
 	drawStickman(frame, coord(shipPosition.x - 30, shipPosition.y - 90), 15, rgb(99,99,99),counter);
 }
 
+
+vector<Coord> getFishCoordinate(Coord center) {
+	vector<Coord> fishCoord;
+
+	int xHeight = 72;
+	int yHeight = 12;
+	
+
+	fishCoord.push_back(coord(center.x, center.y));
+	fishCoord.push_back(coord(fishCoord.at(0).x + 7, fishCoord.at(0).y - 3));
+	fishCoord.push_back(coord(fishCoord.at(1).x + 10, fishCoord.at(1).y - 2));
+	fishCoord.push_back(coord(fishCoord.at(2).x + 15, fishCoord.at(2).y - 1));
+	fishCoord.push_back(coord(fishCoord.at(3).x + 15, fishCoord.at(3).y + 1));
+	fishCoord.push_back(coord(fishCoord.at(4).x + 12, fishCoord.at(4).y + 3));
+	fishCoord.push_back(coord(fishCoord.at(5).x + 7, fishCoord.at(5).y + 2));
+	fishCoord.push_back(coord(fishCoord.at(6).x + 6, fishCoord.at(6).y - 6));
+	fishCoord.push_back(coord(fishCoord.at(7).x, fishCoord.at(7).y + 12));
+	fishCoord.push_back(coord(fishCoord.at(8).x - 6, fishCoord.at(8).y - 6)); 
+	fishCoord.push_back(coord(fishCoord.at(9).x - 7, fishCoord.at(9).y + 2));
+	fishCoord.push_back(coord(fishCoord.at(10).x - 12, fishCoord.at(10).y + 3));
+	fishCoord.push_back(coord(fishCoord.at(11).x - 15, fishCoord.at(11).y + 1));
+	fishCoord.push_back(coord(fishCoord.at(12).x - 15, fishCoord.at(12).y - 1));
+	fishCoord.push_back(coord(fishCoord.at(13).x - 10, fishCoord.at(13).y - 2));
+
+	return fishCoord;
+
+}
+
+
+vector<Coord> getTriangleCoordinate(Coord center) {
+	vector<Coord> fishCoord;
+
+	int xHeight = 72;
+	int yHeight = 12;
+	
+
+	fishCoord.push_back(coord(center.x, center.y));
+	fishCoord.push_back(coord(fishCoord.at(0).x + 7, fishCoord.at(0).y + 5));
+	fishCoord.push_back(coord(fishCoord.at(1).x + 7, fishCoord.at(1).y - 3));
+	fishCoord.push_back(coord(fishCoord.at(2).x + 7, fishCoord.at(2).y + 10));
+	fishCoord.push_back(coord(fishCoord.at(3).x - 21, fishCoord.at(3).y));
+	return fishCoord;
+
+}
+
+void drawFish(Frame  *frame, Coord center, RGB color) {
+	vector<Coord> fishCoord = getFishCoordinate(coord(200,200));
+	for(int i=0;i<fishCoord.size();++i) {
+		if(i!=fishCoord.size()-1)
+			plotLine(frame,fishCoord.at(i).x, fishCoord.at(i).y ,fishCoord.at(i+1).x, fishCoord.at(i+1).y, color);
+		else
+			plotLine(frame, fishCoord.at(i).x, fishCoord.at(i).y ,fishCoord.at(0).x, fishCoord.at(0).y, color);
+	}
+}
+
 /* FUNCTIONS FOR SCANLINE ALGORITHM ---------------------------------------------------- */
 
 bool isSlopeEqualsZero(int y0, int y1){
@@ -437,13 +492,8 @@ void drawShip(Frame *frame, Coord center, RGB color)
 	}
 	
 	// Dummy pattern's coordinate
-	vector<Coord> patternCoordinates;
 	
-	patternCoordinates.push_back(coord(70, 10));
-	patternCoordinates.push_back(coord(90, 10));
-	patternCoordinates.push_back(coord(90, 30));
-	patternCoordinates.push_back(coord(70, 30));
-	
+	vector<Coord> patternCoordinates = getFishCoordinate(coord(70,20));
 	
 	// Coloring ship using scanline algorithm
 	for(int i = 1; i <= height; i++){
@@ -711,6 +761,8 @@ int main() {
 		// draw ship
 		drawShip(&canvas, coord(shipXPosition,shipYPosition), rgb(99,99,99));
 		
+		//drawFish(&canvas, coord(shipXPosition, shipYPosition), rgb(255,00,00));
+
 		// draw stickman and cannon
 		drawStickmanAndCannon(&canvas, coord(shipXPosition,shipYPosition), rgb(99,99,99), stickmanCounter++);
 				
@@ -848,4 +900,3 @@ int main() {
 	fclose(fmouse);
 	return 0;
 }
-
