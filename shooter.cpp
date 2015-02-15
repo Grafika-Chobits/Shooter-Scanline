@@ -341,6 +341,7 @@ bool isInBetween(int y0, int y1, int yTest){
 	}
 }
 
+/* Function to calculate intersection between line (a,b) and line with slope 0 */
 Coord intersection(Coord a, Coord b, int y){
 	int x;
 	double slope;
