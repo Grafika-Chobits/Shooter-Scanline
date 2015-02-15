@@ -356,16 +356,9 @@ vector<Coord> getBirdCoordinate(Coord center) {
 
 	birdCoord.push_back(coord(center.x, center.y));
 	birdCoord.push_back(coord(birdCoord.at(0).x+10, birdCoord.at(0).y-5));
-	birdCoord.push_back(coord(birdCoord.at(1).x+10, birdCoord.at(1).y+5));
-	birdCoord.push_back(coord(birdCoord.at(2).x+5, birdCoord.at(2).y+5));
-	birdCoord.push_back(coord(birdCoord.at(3).x+20, birdCoord.at(3).y+5));
-	birdCoord.push_back(coord(birdCoord.at(4).x+5, birdCoord.at(4).y));
-	birdCoord.push_back(coord(birdCoord.at(5).x-10, birdCoord.at(5).y+5));
-	birdCoord.push_back(coord(birdCoord.at(6).x-10, birdCoord.at(6).y));
-	birdCoord.push_back(coord(birdCoord.at(7).x-10, birdCoord.at(7).y-2));
-	birdCoord.push_back(coord(birdCoord.at(8).x-10, birdCoord.at(8).y-2));
-	birdCoord.push_back(coord(birdCoord.at(9).x-10, birdCoord.at(9).y-2));
-	birdCoord.push_back(coord(birdCoord.at(10).x-10, birdCoord.at(10).y-2));
+	birdCoord.push_back(coord(birdCoord.at(1).x+13, birdCoord.at(1).y+7));
+	birdCoord.push_back(coord(birdCoord.at(2).x-10, birdCoord.at(2).y+5));
+	birdCoord.push_back(coord(birdCoord.at(3).x-10, birdCoord.at(3).y-5));
 
 	return birdCoord;
 }
@@ -569,7 +562,7 @@ void drawPlane(Frame *frame, Coord position, RGB color) {
 	planeCoordinates.push_back(coord(planeCoordinates.at(1).x + 30, planeCoordinates.at(1).y-3));
 	planeCoordinates.push_back(coord(planeCoordinates.at(2).x + 13, planeCoordinates.at(2).y-4));
 	planeCoordinates.push_back(coord(planeCoordinates.at(3).x + 13, planeCoordinates.at(3).y-3));
-	planeCoordinates.push_back(coord(planeCoordinates.at(4).x + 13, planeCoordinates.at(4).y+3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(4).x + 13, planeCoordinates.at(4).y+5));
 	planeCoordinates.push_back(coord(planeCoordinates.at(5).x + 13, planeCoordinates.at(5).y+4));
 	planeCoordinates.push_back(coord(planeCoordinates.at(6).x + 50, planeCoordinates.at(6).y-3));
 	planeCoordinates.push_back(coord(planeCoordinates.at(7).x + 5, planeCoordinates.at(7).y-18));
@@ -577,12 +570,12 @@ void drawPlane(Frame *frame, Coord position, RGB color) {
 	planeCoordinates.push_back(coord(planeCoordinates.at(9).x + 3, planeCoordinates.at(9).y+27));
 	planeCoordinates.push_back(coord(planeCoordinates.at(10).x - 1, planeCoordinates.at(10).y+5));
 	planeCoordinates.push_back(coord(planeCoordinates.at(11).x + 1, planeCoordinates.at(11).y+5));
-	planeCoordinates.push_back(coord(planeCoordinates.at(12).x - 67, planeCoordinates.at(12).y+3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(12).x - 69, planeCoordinates.at(12).y+4));
 	planeCoordinates.push_back(coord(planeCoordinates.at(13).x + 13, planeCoordinates.at(13).y+25));
 	planeCoordinates.push_back(coord(planeCoordinates.at(14).x - 10, planeCoordinates.at(14).y-6));
 	planeCoordinates.push_back(coord(planeCoordinates.at(15).x - 17, planeCoordinates.at(15).y-18));
-	planeCoordinates.push_back(coord(planeCoordinates.at(16).x - 37, planeCoordinates.at(16).y-1));
-	planeCoordinates.push_back(coord(planeCoordinates.at(17).x - 27, planeCoordinates.at(17).y-3));
+	planeCoordinates.push_back(coord(planeCoordinates.at(16).x - 37, planeCoordinates.at(16).y-2));
+	planeCoordinates.push_back(coord(planeCoordinates.at(17).x - 27, planeCoordinates.at(17).y-4));
 	
 
 	// Draw ship's border relative to canvas
@@ -605,11 +598,11 @@ void drawPlane(Frame *frame, Coord position, RGB color) {
 	}
 	
 	// Pattern's coordinate
-	vector<Coord> patternCoordinates = getBirdCoordinate(coord(50,-10));
+	vector<Coord> patternCoordinates = getBirdCoordinate(coord(60,-2));
 
 	// Coloring ship using scanline algorithm
 	int height = 65;
-	for(int i = -33; i <= height-33; i++){
+	for(int i = -31; i <= height-31; i++){
 		vector<Coord> planeIntersectionPoint = intersectionGenerator(i, planeCoordinates);
 		vector<Coord> patternIntersectionPoint = intersectionGenerator(i, patternCoordinates);
 		
